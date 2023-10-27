@@ -10,7 +10,7 @@
 //         <h3>Admin Dashboard</h3>
 //         <ul>
 //           <li>
-//             <Link to="/create-quiz">Create Quiz</Link> 
+//             <Link to="/create-quiz">Create Quiz</Link>
 //           </li>
 //           <li>
 //             <Link to="/view-quiz">View Quizzes</Link> {/* Link to a page where you view quizzes */}
@@ -35,7 +35,7 @@
 //         <h3>Admin Dashboard</h3>
 //         <ul>
 //           <li>
-//             <Link to="/create-quiz">Create Quiz</Link> 
+//             <Link to="/create-quiz">Create Quiz</Link>
 //           </li>
 //           <li>
 //             <Link to="/view-quiz">View Quizzes</Link>
@@ -53,15 +53,36 @@
 
 // export default AdminLoggedIn;
 
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
+import UserContext from "../context/user";
+import axios from 'axios';
 
 function AdminLoggedIn() {
+  const ctx = useContext(UserContext);
+  const fetchUserDetails = async () => {
+    axios
+      .get(`/api/admin-profile?username=${ctx.username}&role=${ctx.role}`)
+      .then((response) => {
+        console.log(response.data); // Handle the response data as needed
+        ctx.setEmail(response.data.email);
+        ctx.setName(response.data.name);
+      })
+      .catch((error) => {
+        console.error(error); // Handle any errors that may occur
+      });
+  };
+
+  useEffect(() => {
+    fetchUserDetails();
+  },[])
   return (
     <div className="container mt-4">
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container">
-          <Link to="/user-profile" className="navbar-brand">Profile</Link>
+          <Link to="/admin-profile" className="navbar-brand">
+            Profile
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -76,7 +97,9 @@ function AdminLoggedIn() {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <Link to="/user-profile" className="nav-link">Welcome, User!</Link>
+                <Link to="/admin-profile" className="nav-link">
+                  Welcome, {ctx.username}!
+                </Link>
               </li>
             </ul>
           </div>
@@ -93,7 +116,7 @@ function AdminLoggedIn() {
               </Link>
             </li>
             <li className="list-group-item">
-            <Link to="/view-quiz" className="btn btn-secondary">
+              <Link to="/view-quiz" className="btn btn-secondary">
                 View Quizzes
               </Link>
             </li>

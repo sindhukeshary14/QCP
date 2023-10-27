@@ -54,7 +54,7 @@ def register():
 @app.route('/api/login', methods=['POST'])
 def login():
     login_data = request.get_json()
-    print(login_data)
+ 
  
     if not login_data:
         return jsonify({"error": "Invalid request data"}), 400
@@ -101,23 +101,48 @@ def get_quizzes():
     quizzes = list(questions_collection.find({}, {'_id': 0}))
     return jsonify(quizzes), 200
 
-@app.route('/api/admin-profile', methods=['POST'])
+# @app.route('/api/admin-profile', methods=['GET'])
+# def get_admin_profile():
+#     admin_data = request.get_json()
+#     print(admin_data)
+ 
+#     if not admin_data:
+#         return jsonify({"error": "Invalid request data"}), 400
+
+#     # username = login_data.get('username')
+#     # password = login_data.get('password')
+
+#     username = admin_data['username']
+#     # role=admin_data['role']
+    
+    
+#     admin_data = users_collection.find_one({'username': username, 'role': 'admin'})
+#     if admin_data:
+#         # Return the admin data as JSON
+#         return jsonify(admin_data)
+#     else:
+#         return jsonify({"error": "Admin not found"}), 404
+
+@app.route('/api/admin-profile', methods=['GET'])
 def get_admin_profile():
-    login_data = request.get_json()
+    username = request.args.get('username')
+    role = request.args.get('role')
+ 
+    if not username or not role:
+        return jsonify({"error": "Username and role are required"}), 400
 
-    # Check the login credentials against MongoDB data
-    admin_data = users_collection.find_one({
-        'username': login_data['username'],
-        'password': login_data['password'],
-        'role': 'admin'  # Assuming you have a 'role' field to identify admins
-    })
-
+    admin_data = users_collection.find_one({'username': username, 'role': role})
     if admin_data:
-        # Return admin data
-        return jsonify(admin_data)
-
-    # If admin data is not found, return an error response
-    return jsonify({"error": "Admin data not found"}), 404
+        response_data = {
+            'name': admin_data['name'],
+            'email': admin_data['email'],
+            'username': admin_data['username']
+        }
+        
+        return jsonify(response_data)
+        
+    else:
+        return jsonify({"error": "Admin not found"}), 404
 
 
 

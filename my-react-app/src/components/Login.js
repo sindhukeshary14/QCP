@@ -76,12 +76,14 @@
 
 // export default Login;
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios';
+import UserContext from '../context/user';
 
 function Login() {
-  const navigate = useNavigate(); // Initialize navigate hook
+  const navigate = useNavigate(); 
+  const ctx=useContext(UserContext)
 
   const [formData, setFormData] = useState({
     username: '',
@@ -99,6 +101,9 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { username, password, role } = formData;
+    ctx.setUsername(username)
+    ctx.setRole(role);
+    console.log(ctx.username)
 
     // Send a POST request to your Flask login API
     axios.post('http://localhost:5000/api/login', { username, password, role })
