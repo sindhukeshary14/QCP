@@ -50,8 +50,10 @@ class Signup extends Component {
 
   render() {
     return (
-      <div>
+      <div className='row'>
         <h2>Signup</h2>
+        <div className='col col-md-6'>
+        <div className='form1'>
         <form onSubmit={this.handleSubmit}>
         <div className="form-group">
             <input
@@ -117,6 +119,11 @@ class Signup extends Component {
           <button type="submit" className="btn btn-primary">Sign Up</button>
         </form><br></br>
         <p>Already have an account? <Link to="/login">Login</Link></p> {/* Add this Link */}
+      </div>
+      </div>
+      <div className='col col-md-6'>
+          <img src="https://st.depositphotos.com/18722762/51522/v/450/depositphotos_515228796-stock-illustration-online-registration-sign-login-account.jpg" />
+      </div>
       </div>
     );
   }

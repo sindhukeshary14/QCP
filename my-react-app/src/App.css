@@ -36,3 +36,77 @@
     transform: rotate(360deg);
   }
 }
+
+.form-group {
+  width: 300px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  text-align: center;
+}
+.form1 {
+  margin: 30px;
+  padding: 30px;
+  border: #5a4c4c;
+  border-radius: 5px;
+}
+
+/* Styling for the heading */
+h2 {
+  color: #333;
+}
+
+/* Styling for form elements */
+.form-group {
+  margin:  2px;
+}
+
+/* Styling for input fields */
+input {
+  width: 10%;
+  /* padding: 10px; */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Styling for the select element */
+select {
+  width: 50%;
+  /* padding: 10px; */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Styling for the login button */
+button {
+  float: left;
+  width: 20%;
+  padding: 10px;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* Hover effect for the login button */
+button:hover {
+  background-color: #0056b3;
+}
+
+/*home image*/
+
+img{
+  float: right;
+  margin-top: 10px;
+  padding: 10px;
+  /* height: 20px;
+  width: 20px; */
+  padding-right: 100px;
+
+}

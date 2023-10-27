@@ -1,5 +1,5 @@
-// CreateQuiz.js
 import React, { useState } from 'react';
+import axios from 'axios';
 
 function CreateQuiz() {
   const [quizData, setQuizData] = useState([]); // To store quiz questions
@@ -14,6 +14,14 @@ function CreateQuiz() {
       correctAnswer: currentCorrectAnswer,
     };
 
+    axios.post('http://localhost:5000/api/questions', newQuestion)
+    .then(response => {
+      console.log("Question added successfully");
+    })
+    .catch(error => {
+      console.error("Failed to add question: " + error.message);
+    });
+
     setQuizData([...quizData, newQuestion]);
     setCurrentQuestion('');
     setCurrentOptions(['', '', '', '']);
@@ -24,6 +32,10 @@ function CreateQuiz() {
     const updatedOptions = [...currentOptions];
     updatedOptions[index] = e.target.value;
     setCurrentOptions(updatedOptions);
+  }
+
+  const handleNextQuestion = () => {
+    addQuestion(); // Add the current question before moving to the next one
   }
 
   return (
@@ -63,24 +75,13 @@ function CreateQuiz() {
             ))}
           </select>
         </div>
-        <button type="button" onClick={addQuestion}>Add Question</button>
+        <button type="button" onClick={handleNextQuestion}>Next Question</button>
       </form>
-      <div>
-        <h3>Quiz Questions</h3>
-        <ul>
-          {quizData.map((question, index) => (
-            <li key={index}>
-              Question: {question.question}
-              <br />
-              Options: {question.options.join(', ')}
-              <br />
-              Correct Answer: Option {question.correctAnswer + 1}
-            </li>
-          ))}
-        </ul>
-      </div>
+      
     </div>
   );
 }
 
 export default CreateQuiz;
+
+
