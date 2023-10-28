@@ -1,21 +1,3 @@
-// About.js
-
-// // About.js
-// import React from 'react';
-
-// function About() {
-//   return (
-//     <div>
-//       <h2>About Page</h2>
-//       <p>This is the About page where you can learn more about our application.</p>
-//       {/* Add information about quizzes and any other details here */}
-//     </div>
-//   );
-// }
-
-// export default About;
-
-
 import React, { useState } from 'react';
 
 function About() {
