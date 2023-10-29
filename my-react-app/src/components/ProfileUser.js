@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
 import UserContext from '../context/user';
 
 function ProfileUser() {
@@ -12,12 +11,17 @@ function ProfileUser() {
 
   return (
     <div className="container">
-      <h2>User Profile</h2>
-      <div>
+    <div className='my'>
+      <img className='imgpro' src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png "></img>
+        <h2 className='admin'>User Profile</h2>
         <p><strong>Name:</strong> {ctn.name}</p>
         <p><strong>Email:</strong> {ctn.email}</p>
         <p><strong>Username:</strong> {ctn.username}</p>
+        
+       
       </div>
+      
+      
     </div>
   );
 }

@@ -44,21 +44,27 @@ const CreateQuiz = () => {
       if (response.ok) {
         // Handle success, e.g., show a success message
         console.log('Test added successfully!');
+        window.alert('Test has been created successfully!');
       } else {
         // Handle error, e.g., show an error message
         console.error('Failed to add test');
+        window.alert('Failed to create test. Please try again.');
       }
     } catch (error) {
       console.error('Error:', error);
+      window.alert('An error occurred while creating the test. Please try again later.');
     }
   };
 
   return (
+    <div className='question-form'>
     <form onSubmit={handleSubmit}>
 
+      
+      <h2 className='cq'>Create Quiz</h2> 
       <label>
         Test Name:
-        <input type="text" value={testName} style={{width: '10vw'}} onChange={(e) => setTestName(e.target.value)} />
+        <input type="text" value={testName} style={{width: '15.5vw'}} onChange={(e) => setTestName(e.target.value)} />
       </label>
       <br />
 
@@ -67,7 +73,7 @@ const CreateQuiz = () => {
           <label>
             Question {index + 1}:
             <input
-            style={{width: '10vw'}}
+            style={{width: '15vw'}}
               type="text"
               name="question"
               value={question.question}
@@ -83,6 +89,7 @@ const CreateQuiz = () => {
                 type="text"
                 value={option}
                 style={{width: '10vw'}}
+                className='question-input'
                 onChange={(e) => handleOptionsChange(index, optionIndex, e)}
               />
             </label>
@@ -93,6 +100,7 @@ const CreateQuiz = () => {
             Answer:
             <select
               value={question.answer}
+              className='select-question'
               onChange={(e) => handleQuestionChange(index, e)}
               name="answer"
             >
@@ -104,13 +112,13 @@ const CreateQuiz = () => {
           <br />
         </div>
       ))}
-      <button type="button" style={{backgroundColor: 'blue'}} onClick={addQuestion}>
+      <button className='createquiz-button sb-bttn' type="button"  onClick={addQuestion}>
         Add Another Question
       </button>
-      <br />
 
-      <button type="submit" style={{backgroundColor: 'red'}}>Submit Test</button>
+      <button className='createquiz-button sb-bttn' type="submit" >Submit Test</button>
     </form>
+    </div>
   );
 }
 

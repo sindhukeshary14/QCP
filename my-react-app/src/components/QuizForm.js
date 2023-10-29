@@ -18,7 +18,6 @@ function QuizForm() {
       const response = await axios.get(`http://127.0.0.1:5000/api/tests/admin/${testName}`);
       const data = await response.data;
       setTestData(data);
-      console.log(data);
     } catch (error) {
       console.error("Error fetching test questions:", error);
     }
@@ -53,8 +52,9 @@ function QuizForm() {
 
   return (
     <div className="container">
-      <h3>Python Quiz</h3>
-      <form onSubmit={handleSubmit}>
+      <h3 className='Quiz-title'>Python Quiz</h3>
+      <form onSubmit={handleSubmit} className='question-form'>
+        <div className='form-content'>
         {testData && testData.questions && testData.questions.map((question, index) => (
           <div key={index} className="ques-div">
             <h2 className="qnum">Question {index + 1}</h2>
@@ -77,12 +77,13 @@ function QuizForm() {
             </div>
           </div>
         ))}
-        <button className="btn btn-primary btn-lg sub-btn" type="submit">
+        <button className="sb-bttn" type="submit">
           Submit
         </button>
+        </div>
       </form>
       {submitted && (
-        <div>
+        <div className="submission-message">
           <p>Form submitted. Your score is: {score} out of {testData.questions.length}</p>
         </div>
       )}

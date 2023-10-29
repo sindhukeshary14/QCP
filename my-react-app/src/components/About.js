@@ -1,29 +1,19 @@
-import React, { useState } from 'react';
-
-function About() {
-  const [quizData, setQuizData] = useState([]);
-  const [showQuiz, setShowQuiz] = useState(false);
-
-  // Function to create a quiz (you can add more logic)
-  const createQuiz = () => {
-    // Logic to create a quiz and set quizData state
-    setShowQuiz(true);
-  }
-
-  // Function to start the quiz
-  const startQuiz = () => {
-    // Logic to start the quiz (display questions, handle responses)
-  }
-
+import React from 'react';
+const About = () => {
   return (
-    <div>
-      <h2>About Page</h2>
-      <p>This is the About page where you can learn more about our application.</p>
-      <button onClick={createQuiz}>Create Quiz</button>
-      {showQuiz && <button onClick={startQuiz}>Start Quiz</button>}
-      {/* Add quiz-related components here */}
+    <div className='about-bg' >
+      <header>
+        <h1 style={{color:'#531558'}}>Welcome to QuizApp</h1>
+      </header>
+        <img src='https://qph.cf2.quoracdn.net/main-qimg-c5b5bb8c951bbee14dc90021851f4079' alt='About'width="700px" height="400px" className='img'/>
+          <div className='text'>
+            <section id="introduction">
+              <h2>Introduction</h2>
+                <p>Hello, quiz enthusiasts! We're excited to introduce you to QuizApp, your go-to destination for fun and informative quizzes. Whether you're a trivia buff or just looking to challenge your knowledge, you've come to the right place.</p>
+            </section>
+          </div>
+    
     </div>
   );
-}
-
+};
 export default About;
