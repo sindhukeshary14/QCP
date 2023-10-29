@@ -84,7 +84,7 @@ function QuizForm() {
       </form>
       {submitted && (
         <div className="submission-message">
-          <p>Form submitted. Your score is: {score} out of {testData.questions.length}</p>
+          <p>Form submitted. Your score is: 2 out of {testData.questions.length}</p>
         </div>
       )}
     </div>

@@ -240,6 +240,12 @@ input[type="radio"] {
   align-items: flex-start;
 }
 
+.options-div input[type="radio"] {
+  width: 15px; /* Adjust the width as needed */
+  height: 10px; /* Adjust the height as needed */
+  margin-right: 5px; /* Add some space to separate the radio button from the label */
+}
+
 .option-item {
   display: flex;
   align-items: center;
