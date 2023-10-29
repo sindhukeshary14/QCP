@@ -17,12 +17,27 @@ import ProfileUser from "./components/ProfileUser";
 import { UserContextProvider } from "./context/user";
 
 function App() {
+  const tests = [
+    { id: 1, title: "Test1", description: "Description of Test 1" },
+    { id: 2, title: "Test2", description: "Description of Test 2" },
+    { id: 3, title: "Test3", description: "Description of Test 3" },
+    { id: 4, title: "Test4", description: "Description of Test 4" },
+    { id: 5, title: "Test5", description: "Description of Test 5" },
+    { id: 6, title: "Test6", description: "Description of Test 6" },
+  ];
   return (
     <div className="App">
       <UserContextProvider>
         <Router>
           <header>
-            <Navbar />
+            <Routes>
+              <Route
+                path="/*"
+                element={
+                  <Navbar showLogout={true} /> /* By default, show Logout in Navbar */
+                }
+              />
+            </Routes>
           </header>
           <main>
             <Routes>
@@ -37,6 +52,8 @@ function App() {
               <Route path="/user-profile" element={<ProfileUser />} />
               <Route path="/admin-profile" element={<ProfileAdmin />} />
               <Route path="/" element={<QuizIndex />} />
+              <Route path="/" element={<UserLoggedIn tests={tests} />} />
+              <Route path="/QuizForm/:id" component={QuizForm} />
             </Routes>
           </main>
         </Router>
@@ -46,3 +63,7 @@ function App() {
 }
 
 export default App;
+
+
+
+

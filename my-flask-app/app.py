@@ -12,7 +12,6 @@ CORS(app, resources={r"/api/*": {"origins": "*"}})  # Allow all origins for deve
 client = MongoClient('mongodb://localhost:27017/')  # Replace with your MongoDB connection string
 db = client['Quiz']  # Replace with your database name
 users_collection = db['User'] 
-tests_collection = db['Tests']
 questions_collection = db['AdminQuestion']
 
 @app.after_request
@@ -21,6 +20,8 @@ def after_request(response):
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
     return response
 
+
+# Register API
 @app.route('/api/register', methods=['POST'])
 def register():
     user_data = request.get_json()
@@ -51,6 +52,10 @@ def register():
 
     return jsonify({"message": "User registered successfully"}), 201
 
+
+
+
+# Login API
 @app.route('/api/login', methods=['POST'])
 def login():
     login_data = request.get_json()
@@ -59,8 +64,6 @@ def login():
     if not login_data:
         return jsonify({"error": "Invalid request data"}), 400
 
-    # username = login_data.get('username')
-    # password = login_data.get('password')
 
     username = login_data['username']
     password = login_data['password']
@@ -76,53 +79,78 @@ def login():
     # If login fails, return an error response
     return jsonify({"error": "Invalid credentials"}), 401
 
-@app.route('/api/tests', methods=['GET'])
-def get_test(testId):
-    # Fetch test data by testId from the database
-    test_data = tests_collection.find_one({'id': testId})
-    if test_data:
-        return jsonify(test_data)
-    return jsonify({"error": "Test not found"}), 404
 
-@app.route('/api/questions', methods=['POST'])
-def add_question():
-    question_data = request.get_json()
-    if not question_data:
-        return jsonify({"error": "Invalid request data"}), 400
+# Add_test API
+@app.route('/api/add_test', methods=['POST'])
+def add_test():
+    test_data = request.get_json()
+    if not test_data or not isinstance(test_data, dict):
+        return jsonify({"error": "Invalid request data or data format"}), 400
 
-    # Insert the question into the MongoDB collection
-    questions_collection.insert_one(question_data)
+    username = test_data.get("username")
+    test_name = test_data.get("test_name")
+    questions = test_data.get("questions")
+    print(username,"username")
+    print(test_name,"test_name")
+    print(questions, "questions")
+    if not username or not test_name or not questions:
+        return jsonify({"error": "Invalid test data format"}), 400
 
-    return jsonify({"message": "Question added successfully"}), 201
+    # Search for the user in the collection
+    user = questions_collection.find_one({"username": username})
+    if user:
+        # User exists, update the tests
+        tests = user.get("tests", {})
+        print(tests)
+        tests[test_name] = questions
+        questions_collection.update_one({"username": username}, {"$set": {"tests": tests}})
+    else:
+        # User doesn't exist, create a new user document
+        print("else")
+        user_document = {
+            "username": username,
+            "tests": {
+                test_name: questions
+            }
+        }
+        print(user_document)
+        questions_collection.insert_one(user_document)
 
+    return jsonify({"message": f"Test added for user: {username}"}), 201
+
+
+
+
+# View Quiz API
 @app.route('/api/quizzes', methods=['GET'])
 def get_quizzes():
     # Retrieve the list of quizzes from the MongoDB collection
     quizzes = list(questions_collection.find({}, {'_id': 0}))
     return jsonify(quizzes), 200
 
-# @app.route('/api/admin-profile', methods=['GET'])
-# def get_admin_profile():
-#     admin_data = request.get_json()
-#     print(admin_data)
- 
-#     if not admin_data:
-#         return jsonify({"error": "Invalid request data"}), 400
 
-#     # username = login_data.get('username')
-#     # password = login_data.get('password')
 
-#     username = admin_data['username']
-#     # role=admin_data['role']
-    
-    
-#     admin_data = users_collection.find_one({'username': username, 'role': 'admin'})
-#     if admin_data:
-#         # Return the admin data as JSON
-#         return jsonify(admin_data)
-#     else:
-#         return jsonify({"error": "Admin not found"}), 404
 
+#Fetch questions API
+@app.route('/api/tests/<username>/<test_name>', methods=['GET'])
+def get_test_questions(username, test_name):
+    user = questions_collection.find_one({"username": username})
+
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    tests = user.get("tests", {})
+    selected_test = tests.get(test_name)
+
+    if not selected_test:
+        return jsonify({"error": f"Test '{test_name}' not found for user '{username}'"}), 404
+
+    return jsonify({"username": username, "test_name": test_name, "questions": selected_test}), 200
+
+
+
+
+# Add Admin Profile API
 @app.route('/api/admin-profile', methods=['GET'])
 def get_admin_profile():
     username = request.args.get('username')
@@ -137,6 +165,31 @@ def get_admin_profile():
             'name': admin_data['name'],
             'email': admin_data['email'],
             'username': admin_data['username']
+        }
+        
+        return jsonify(response_data)
+        
+    else:
+        return jsonify({"error": "Admin not found"}), 404
+    
+
+
+
+# Add User Profile API
+@app.route('/api/user-profile', methods=['GET'])
+def get_user_profile():
+    username = request.args.get('username')
+    role = request.args.get('role')
+ 
+    if not username or not role:
+        return jsonify({"error": "Username and role are required"}), 400
+
+    user_data = users_collection.find_one({'username': username, 'role': role})
+    if user_data:
+        response_data = {
+            'name': user_data['name'],
+            'email': user_data['email'],
+            'username': user_data['username']
         }
         
         return jsonify(response_data)

@@ -1,57 +1,3 @@
-// // AdminLoggedIn.js
-// import React from 'react';
-// import { Link } from 'react-router-dom';
-
-// function AdminLoggedIn() {
-//   return (
-//     <div>
-//       <h2>Welcome, Admin!</h2>
-//       <div>
-//         <h3>Admin Dashboard</h3>
-//         <ul>
-//           <li>
-//             <Link to="/create-quiz">Create Quiz</Link>
-//           </li>
-//           <li>
-//             <Link to="/view-quiz">View Quizzes</Link> {/* Link to a page where you view quizzes */}
-//           </li>
-//           {/* Add more admin options here as needed */}
-//         </ul>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default AdminLoggedIn;
-
-// import React from 'react';
-// import { Link } from 'react-router-dom';
-
-// function AdminLoggedIn() {
-//   return (
-//     <div>
-//       <h2>Welcome, Admin!</h2>
-//       <div>
-//         <h3>Admin Dashboard</h3>
-//         <ul>
-//           <li>
-//             <Link to="/create-quiz">Create Quiz</Link>
-//           </li>
-//           <li>
-//             <Link to="/view-quiz">View Quizzes</Link>
-//           </li>
-//           {/* Add a link to the Admin Profile page */}
-//           <li>
-//             <Link to="/admin-profile">Admin Profile</Link>
-//           </li>
-//           {/* Add more admin options here as needed */}
-//         </ul>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default AdminLoggedIn;
 
 import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -78,9 +24,10 @@ function AdminLoggedIn() {
   },[])
   return (
     <div className="container mt-4">
+      
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container">
-          <Link to="/admin-profile" className="navbar-brand">
+          <Link to="/admin-profile" className="navbar-brand brown-text">
             Profile
           </Link>
           <button
@@ -97,30 +44,31 @@ function AdminLoggedIn() {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <Link to="/admin-profile" className="nav-link">
-                  Welcome, {ctx.username}!
-                </Link>
+              <Link to="/admin-profile" className="nav-link brown-text" style={{ fontSize: '25px' ,}}>
+                     Welcome, {ctx.username}!
+              </Link>
+
               </li>
             </ul>
           </div>
         </div>
       </nav>
+      <div className="admin-head brown-text">
       <h2>Welcome, Admin!</h2>
-      <div className="card">
-        <div className="card-body">
-          <h3 className="card-title">Admin Dashboard</h3>
+      </div>
+      <div className="admin-dashboard">
+      
+
+        <div className="admin-1">
+          <h3 className="admin-title">Admin Dashboard</h3>
           <ul className="list-group list-group-flush">
             <li className="list-group-item">
-              <Link to="/create-quiz" className="btn btn-primary">
+              <Link to="/create-quiz" className="cb-bttn">
                 Create Quiz
               </Link>
             </li>
-            <li className="list-group-item">
-              <Link to="/view-quiz" className="btn btn-secondary">
-                View Quizzes
-              </Link>
-            </li>
-            {/* Add more admin options here as needed */}
+            
+            
           </ul>
         </div>
       </div>
@@ -129,3 +77,7 @@ function AdminLoggedIn() {
 }
 
 export default AdminLoggedIn;
+
+
+
+
